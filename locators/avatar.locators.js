@@ -40,6 +40,11 @@ module.exports = {
         'button:has-text("Next")',
 
     generateButton:
-        'button:has-text("Generate")'
+        'button:has-text("Generate")',
+        languageDropdown:
+    'button[role="combobox"]',
+
+
+    
 };
 

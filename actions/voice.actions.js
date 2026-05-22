@@ -1,10 +1,17 @@
 const { expect } = require('@playwright/test');
 
+const locators =
+require('../locators/voice.locators');
+
 class VoiceActions {
 
     constructor(page) {
         this.page = page;
     }
+
+    // ------------------------------------------------------------
+    // OPEN DASHBOARD
+    // ------------------------------------------------------------
 
     async openDashboard() {
 
@@ -24,6 +31,10 @@ class VoiceActions {
         });
     }
 
+    // ------------------------------------------------------------
+    // CLICK CREATE BUTTON
+    // ------------------------------------------------------------
+
     async clickCreateButton() {
 
         const createButton =
@@ -39,9 +50,12 @@ class VoiceActions {
         await createButton.click();
     }
 
-    async createVoiceProject(projectName) {
+    // ------------------------------------------------------------
+    // CREATE ENGLISH VOICE PROJECT
+    // ------------------------------------------------------------
 
-        // Wait for modal
+    async createVoiceEnglishProject(projectName) {
+
         await expect(
             this.page.getByText(
                 'Create New Project'
@@ -50,9 +64,9 @@ class VoiceActions {
             timeout: 60000
         });
 
-        // Fill project name
+        // Project Name
         await this.page.locator(
-            'input[placeholder="Enter project name"]'
+            locators.projectNameInput
         ).fill(projectName);
 
         // Select Voice
@@ -60,10 +74,20 @@ class VoiceActions {
             name: /^Voice$/
         }).click();
 
-        // Click Create
+        // Language Dropdown
+        await this.page.locator(
+            locators.languageDropdown
+        ).click();
+
+        // Select English
+        await this.page.getByRole('option', {
+            name: 'English'
+        }).click();
+
+        // Create Project
         const createProjectButton =
             this.page.locator(
-                'form button[type="submit"]'
+                locators.createProjectButton
             );
 
         await expect(createProjectButton)
@@ -74,52 +98,200 @@ class VoiceActions {
         await createProjectButton.click();
     }
 
-  async fillVoiceDetails() {
+    // ------------------------------------------------------------
+    // CREATE HINDI VOICE PROJECT
+    // ------------------------------------------------------------
 
-    // Agent Name
-    await this.page.locator(
-        'input[placeholder="Enter Agent Name"]'
-    ).fill('Amin Khan');
+    async createVoiceHindiProject(projectName) {
 
-    // Agent Identity
-    await this.page.locator(
-        'textarea'
-    ).first().fill(
-        'I am Amin Khan AI Voice Assistant'
-    );
-
-    // Welcome Message
-    await this.page.locator(
-        'textarea'
-    ).last().fill(
-        'Hey there! I am here to help you today.'
-    );
-}
-
-   async uploadKnowledgeBank() {
-
-    await this.page.locator(
-        'input[type="file"]'
-    ).setInputFiles(
-        '/Users/mohammedaminkhanj/Downloads/flam (1).pdf'
-    );
-}
-
-   async clickGenerate() {
-
-    const generateButton =
-        this.page.getByRole('button', {
-            name: /^Generate$/
+        await expect(
+            this.page.getByText(
+                'Create New Project'
+            )
+        ).toBeVisible({
+            timeout: 60000
         });
 
-    // Wait until enabled
-    await expect(generateButton)
-        .toBeEnabled({
+        // Project Name
+        await this.page.locator(
+            locators.projectNameInput
+        ).fill(projectName);
+
+        // Select Voice
+        await this.page.getByRole('button', {
+            name: /^Voice$/
+        }).click();
+
+        // Language Dropdown
+        await this.page.locator(
+            locators.languageDropdown
+        ).click();
+
+        // Select Hindi
+        await this.page.getByRole('option', {
+            name: 'Hindi'
+        }).click();
+
+        // Create Project
+        const createProjectButton =
+            this.page.locator(
+                locators.createProjectButton
+            );
+
+        await expect(createProjectButton)
+            .toBeEnabled({
+                timeout: 60000
+            });
+
+        await createProjectButton.click();
+    }
+
+    // ------------------------------------------------------------
+    // FILL DETAILS WITH IDENTITY
+    // ------------------------------------------------------------
+
+    async fillVoiceDetailsWithIdentity() {
+
+        // Agent Name
+        await this.page.locator(
+            locators.agentNameInput
+        ).fill(
+            'Amin Khan'
+        );
+
+        // Agent Identity
+        await this.page.locator(
+            locators.agentIdentityTextarea
+        ).fill(
+            'I am Amin Khan AI Voice Assistant'
+        );
+
+        // Welcome Message
+        await this.page.locator(
+            locators.welcomeMessageTextarea
+        ).fill(
+            'Hey there! I am here to help you today.'
+        );
+    }
+
+    // ------------------------------------------------------------
+    // FILL DETAILS WITHOUT IDENTITY
+    // ------------------------------------------------------------
+
+    async fillVoiceDetailsWithoutIdentity() {
+
+        // Agent Name
+        await this.page.locator(
+            locators.agentNameInput
+        ).fill(
+            'Amin Khan'
+        );
+
+        // Welcome Message
+        await this.page.locator(
+            locators.welcomeMessageTextarea
+        ).fill(
+            'Hey there! I am here to help you today.'
+        );
+    }
+
+    // ------------------------------------------------------------
+    // SELECT KNOWLEDGE BANK
+    // ------------------------------------------------------------
+
+    async selectKnowledgeBank() {
+
+    // Open dropdown
+    await this.page.locator(
+        'button[role="combobox"]'
+    ).nth(1).click();
+
+    // Select Knowledge Bank
+    await this.page.getByText(
+        'Knowledge Bank',
+        { exact: true }
+    ).last().click();
+}
+
+    // ------------------------------------------------------------
+    // SELECT AI MODEL
+    // ------------------------------------------------------------
+
+ async selectAIModel() {
+
+    // Open dropdown
+    await this.page.locator(
+        'button[role="combobox"]'
+    ).nth(1).click();
+
+    // Select AI Model
+    await this.page.getByText(
+        'AI Model',
+        { exact: true }
+    ).last().click();
+}
+
+    // ------------------------------------------------------------
+    // FILL AGENT INSTRUCTIONS
+    // ------------------------------------------------------------
+
+    async fillAgentInstructions() {
+
+        await this.page.locator(
+            locators.agentInstructionTextarea
+        ).fill(
+            'Answer only AI and automation related questions.'
+        );
+    }
+
+    // ------------------------------------------------------------
+    // UPLOAD KNOWLEDGE BANK
+    // ------------------------------------------------------------
+
+    async uploadKnowledgeBank() {
+
+        const fileInput =
+            this.page.locator(
+                locators.knowledgeBankUpload
+            ).last();
+
+        await fileInput.setInputFiles(
+            '/Users/mohammedaminkhanj/Downloads/flam (1).pdf'
+        );
+
+        // Wait until Customize button enabled
+        await expect(
+            this.page.getByRole('button', {
+                name: /^Customize$/,
+                exact: true
+            })
+        ).toBeEnabled({
             timeout: 120000
         });
+    }
 
-    await generateButton.click();
-}
+    // ------------------------------------------------------------
+    // CLICK GENERATE
+    // ------------------------------------------------------------
+
+    async clickGenerate() {
+
+        const generateButton =
+            this.page.getByRole('button', {
+                name: /^Generate$/
+            });
+
+        await expect(generateButton)
+            .toBeEnabled({
+                timeout: 120000
+            });
+
+        await generateButton.click();
+    }
+
+    // ------------------------------------------------------------
+    // CLICK PROCEED
+    // ------------------------------------------------------------
 
     async clickProceed() {
 
@@ -136,6 +308,10 @@ class VoiceActions {
         await proceedButton.click();
     }
 
+    // ------------------------------------------------------------
+    // VERIFY GENERATING
+    // ------------------------------------------------------------
+
     async verifyGenerating() {
 
         await expect(
@@ -146,133 +322,213 @@ class VoiceActions {
             timeout: 300000
         });
     }
+
+    // ------------------------------------------------------------
+    // CLICK CUSTOMIZE
+    // ------------------------------------------------------------
+
     async clickCustomize() {
 
-    const customizeButton =
-        this.page.getByRole('button', {
-            name: 'Customize'
+        const customizeButton =
+            this.page.getByRole('button', {
+                name: 'Customize',
+                exact: true
+            });
+
+        await expect(customizeButton)
+            .toBeVisible({
+                timeout: 300000
+            });
+
+        await expect(customizeButton)
+            .toBeEnabled({
+                timeout: 300000
+            });
+
+        await customizeButton
+            .scrollIntoViewIfNeeded();
+
+        await this.page.waitForTimeout(3000);
+
+        await customizeButton.click({
+            force: true
         });
 
-    await expect(customizeButton)
-        .toBeEnabled({
+        await expect(
+            this.page.getByText(
+                'Select Voice'
+            )
+        ).toBeVisible({
+            timeout: 300000
+        });
+    }
+
+    // ------------------------------------------------------------
+    // CREATE NEW VOICE
+    // ------------------------------------------------------------
+
+    async createNewVoice() {
+
+        await expect(
+            this.page.getByText('Select Voice')
+        ).toBeVisible({
             timeout: 120000
         });
 
-    await customizeButton.click();
-}
-async createProject(projectName) {
+        // Create New Voice
+        await this.page.locator(
+            'text=Create New Voice'
+        ).click();
 
-    // Click Create Button
-    await this.page.getByRole('button', {
-        name: 'Create'
-    }).first().click();
-
-    // Wait for modal
-    await this.page.waitForTimeout(2000);
-
-    // Enter Project Name
-    await this.page.locator(
-        'input[placeholder="Enter project name"]'
-    ).fill(projectName);
-
-    // Select Voice
-    await this.page.getByRole('button', {
-        name: 'Voice'
-    }).click();
-
-    // Click Create
-    await this.page.locator(
-        'form button[type="submit"]'
-    ).click();
-}
-async createNewVoice() {
-
-    // Wait for customize page
-    await expect(
-        this.page.getByText('Select Voice')
-    ).toBeVisible({
-        timeout: 120000
-    });
-
-    // Click Create New Voice
-    await this.page.locator(
-        'text=Create New Voice'
-    ).click();
-
-    // Wait for drawer
-    await expect(
-        this.page.getByText(
-            'Create Your Voice Clone'
-        )
-    ).toBeVisible({
-        timeout: 120000
-    });
-
-    // Voice Label
-    await this.page.locator(
-        'input[placeholder="Enter voice label"]'
-    ).fill(
-        `Voice${Date.now()}`
-    );
-
-    // Select Male
-    await this.page.locator(
-        '#male'
-    ).click();
-
-    // Upload Audio
-    const fileInput =
-        this.page.locator(
-            'input[type="file"]'
-        ).first();
-
-    await fileInput.setInputFiles(
-        '/Users/mohammedaminkhanj/Downloads/Audio (1).mp3'
-    );
-
-    // Wait for audio processing
-    await expect(
-        this.page.getByText(
-            /Audio Output/i
-        )
-    ).toBeVisible({
-        timeout: 300000
-    });
-
-    // Preview Voice
-    const previewButton =
-        this.page.getByRole('button', {
-            name: /Preview Voice/i
+        // Wait for drawer
+        await expect(
+            this.page.getByText(
+                'Create Your Voice Clone'
+            )
+        ).toBeVisible({
+            timeout: 120000
         });
 
-    await expect(previewButton)
-        .toBeEnabled({
+        // Voice Label
+        await this.page.locator(
+            'input[placeholder="Enter voice label"]'
+        ).fill(
+            `Voice${Date.now()}`
+        );
+
+        // Male
+        await this.page.locator(
+            '#male'
+        ).click();
+
+        // Upload Audio
+        const fileInput =
+            this.page.locator(
+                'input[type="file"]'
+            ).first();
+
+        await fileInput.setInputFiles(
+            '/Users/mohammedaminkhanj/Downloads/Audio (1).mp3'
+        );
+
+        // Wait Audio Output
+        await expect(
+            this.page.getByText(
+                /Audio Output/i
+            )
+        ).toBeVisible({
             timeout: 300000
         });
 
-    await previewButton.click();
+        // Preview Voice
+        const previewButton =
+            this.page.getByRole('button', {
+                name: /Preview Voice/i
+            });
 
-    // Wait for Create button enabled
-    const createButton =
-        this.page.getByRole('button', {
-            name: /^Create$/
-        }).last();
+        await expect(previewButton)
+            .toBeEnabled({
+                timeout: 300000
+            });
 
-    await expect(createButton)
-        .toBeEnabled({
+        await previewButton.click();
+
+        // Create Button
+        const createButton =
+            this.page.getByRole('button', {
+                name: /^Create$/
+            }).last();
+
+        await expect(createButton)
+            .toBeEnabled({
+                timeout: 300000
+            });
+
+        await createButton.click();
+
+        // Back to Select Voice
+        await expect(
+            this.page.getByText('Select Voice')
+        ).toBeVisible({
+            timeout: 300000
+        });
+    }
+
+    // ------------------------------------------------------------
+    // SELECT EXISTING VOICE
+    // ------------------------------------------------------------
+
+    async selectExistingVoice() {
+
+        await expect(
+            this.page.getByText('Select Voice')
+        ).toBeVisible({
             timeout: 300000
         });
 
-    // Click Create
-    await createButton.click();
+        await this.page.waitForTimeout(5000);
 
-    // Wait back to Select Voice page
-    await expect(
-        this.page.getByText('Select Voice')
-    ).toBeVisible({
-        timeout: 300000
-    });
-}
+        const existingVoiceCard =
+            this.page.locator(
+                'div.w-\\[212px\\].h-\\[212px\\].relative.aspect-square'
+            ).first();
+
+        await expect(existingVoiceCard)
+            .toBeVisible({
+                timeout: 300000
+            });
+
+        await existingVoiceCard
+            .scrollIntoViewIfNeeded();
+
+        await existingVoiceCard.click();
+
+        await this.page.waitForTimeout(3000);
+    }
+
+    // ------------------------------------------------------------
+    // FINAL GENERATE
+    // ------------------------------------------------------------
+
+    async clickGenerateFinal() {
+
+        const generateButton =
+            this.page.getByRole('button', {
+                name: 'Generate',
+                exact: true
+            });
+
+        await expect(generateButton)
+            .toBeEnabled({
+                timeout: 300000
+            });
+
+        await generateButton.click();
+
+        await expect(
+            this.page.getByText(
+                'Generating your project'
+            )
+        ).toBeVisible({
+            timeout: 300000
+        });
+    }
+    async clickGenerateFinalAI() {
+
+        const generateButton =
+            this.page.getByRole('button', {
+                name: 'Generate',
+                exact: true
+            });
+
+        await expect(generateButton)
+            .toBeEnabled({
+                timeout: 300000
+            });
+
+        await generateButton.click();
+
+    }
 }
 
 module.exports = {

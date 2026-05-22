@@ -15,9 +15,6 @@ module.exports = {
     agentNameInput:
         'input[placeholder="Enter Agent Name"]',
 
-    knowledgeBankUpload:
-        'input[type="file"]',
-
     generateButton:
         'button:has-text("Generate")',
 
@@ -40,5 +37,30 @@ module.exports = {
         'button:has-text("Preview Voice")',
 
     createVoiceButton:
-        'button:has-text("Create")'
+        'button:has-text("Create")',
+
+    languageDropdown:
+        'button[role="combobox"]',
+
+    // ---------------- NEW LOCATORS ----------------
+
+
+    knowledgeBankOption:
+        'text=Knowledge Bank',
+
+    aiModelOption:
+        'text=AI Model',
+
+    agentIdentityTextarea:
+        'textarea[placeholder*="What does your agent do"]',
+
+    welcomeMessageTextarea:
+        'textarea[placeholder="Enter your welcome message"]',
+
+    agentInstructionTextarea:
+        'textarea[placeholder*="Specify what your agent should"]',
+
+    knowledgeBankUpload:
+        'input[type="file"]',
+
 };

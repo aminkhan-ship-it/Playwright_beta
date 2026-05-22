@@ -31,7 +31,7 @@ class AvatarActions {
         });
     }
 
-    async createProject(projectName) {
+    async createEnglishProject(projectName) {
 
         await this.page.locator(
             locators.createButton
@@ -44,11 +44,48 @@ class AvatarActions {
         await this.page.getByRole('button', {
             name: /Avatar/i
         }).click();
+         // Open Language Dropdown
+            await this.page.locator(
+                locators.languageDropdown
+            ).click();
+           // Select English
+   await this.page.getByRole('option', {
+    name: 'English'
+}).click();
+
+await this.page.locator(
+    locators.createProjectButton
+).click();
+    
+   }
+      async createHindiProject(projectName) {
 
         await this.page.locator(
-            locators.createProjectButton
-        ).click();
-    }
+            locators.createButton
+        ).first().click();
+
+        await this.page.locator(
+            locators.projectNameInput
+        ).fill(projectName);
+
+        await this.page.getByRole('button', {
+            name: /Avatar/i
+        }).click();
+         // Open Language Dropdown
+            await this.page.locator(
+                locators.languageDropdown
+            ).click();
+           // Select Hindi
+   await this.page.getByRole('option', {
+    name: 'Hindi'
+}).click();
+
+await this.page.locator(
+    locators.createProjectButton
+).click();
+    
+   }
+
 
     async fillAgentDetails() {
 
@@ -321,6 +358,7 @@ async createNewAvatar() {
             timeout: 300000
         });
     }
+   
 }
 
 module.exports = {
