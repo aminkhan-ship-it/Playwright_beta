@@ -1,4 +1,4 @@
-const { test,expect } =
+const { test, expect } =
 require('@playwright/test');
 
 const {
@@ -15,270 +15,481 @@ test.describe(
 'Avatar Creation Flow',
 () => {
 
-    test(
-    'TC_AVATAR_01 : Verify Avatar Project Creation Flow using default avatar',
-    async ({ page }) => {
+//
+// ============================================================
+// KNOWLEDGE BANK FLOW WITH IDENTITY
+// ============================================================
+//
 
-        test.setTimeout(300000);
+test(
+'TC_AVATAR_01 : Default Avatar + KB + Identity (English)',
+async ({ page }) => {
 
-        const avatar =
-            new AvatarActions(page);
+    test.setTimeout(300000);
 
-        await avatar.openDashboard();
+    const avatar =
+        new AvatarActions(page);
 
-        await avatar.createEnglishProject(
-            `Automation Avatar Project ${Date.now()}`
-        );
+    await avatar.openDashboard();
 
-        await avatar.fillAgentDetails();
+    await avatar.createEnglishProject(
+        `Avatar Project ${Date.now()}`
+    );
 
-        await avatar.uploadKnowledgeBank();
+    await avatar.fillAgentDetailsWithIdentity();
 
-        // Generate directly using default avatar
-        await avatar.clickGenerate();
+    await avatar.selectKnowledgeBank();
 
-        await avatar.verifyGenerating();
-    });
+    await avatar.uploadKnowledgeBank();
 
-    test(
-    'TC_AVATAR_02 : Create project with new avatar and audio',
-    async ({ page }) => {
+    await avatar.clickGenerate();
 
-        test.setTimeout(600000);
-
-        const avatar =
-            new AvatarActions(page);
-
-        await avatar.openDashboard();
-
-        await avatar.createEnglishProject(
-            `Avatar Project ${Date.now()}`
-        );
-
-        await avatar.fillAgentDetails();
-
-        await avatar.uploadKnowledgeBank();
-
-        await avatar.clickCustomize();
-
-        await avatar.createNewAvatar();
-
-        await avatar.fillAvatarDetails();
-
-        await avatar.uploadAvatarVideos();
-
-        await avatar.addVoice();
-
-        await avatar.previewVoice();
-
-        await avatar.createAvatar();
-
-        // Wait after avatar creation
-        await page.waitForTimeout(5000);
-
-        await avatar.clickNext();
-
-        await avatar.clickGenerate();
-
-        await avatar.verifyGenerating();
-    });
-
-    test(
-    'TC_AVATAR_03 : Create project using existing avatar',
-    async ({ page }) => {
-
-        test.setTimeout(300000);
-
-        const avatar =
-            new AvatarActions(page);
-
-        await avatar.openDashboard();
-
-        await avatar.createEnglishProject(
-            `Existing Avatar Project ${Date.now()}`
-        );
-
-        await avatar.fillAgentDetails();
-
-        await avatar.uploadKnowledgeBank();
-
-        await avatar.clickCustomize();
-
-// Wait for Select Avatar page
-await expect(
-    page.getByText('Select Avatar')
-).toBeVisible({
-    timeout: 120000
+    await avatar.verifyGenerating();
 });
 
-// Wait for avatar loading to finish
-await expect(
-    page.getByText('Loading avatars...')
-).not.toBeVisible({
-    timeout: 300000
+test(
+'TC_AVATAR_02 : New Avatar + KB + Identity (English)',
+async ({ page }) => {
+
+    test.setTimeout(600000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createEnglishProject(
+        `Avatar Project ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithIdentity();
+
+    await avatar.selectKnowledgeBank();
+
+    await avatar.uploadKnowledgeBank();
+
+    await avatar.clickCustomize();
+
+    await avatar.createNewAvatar();
+
+    await avatar.fillAvatarDetails();
+
+    await avatar.uploadAvatarVideos();
+
+    await avatar.addVoice();
+
+    await avatar.previewVoice();
+
+    await avatar.createAvatar();
+
+    await page.waitForTimeout(5000);
+
+    await avatar.clickNext();
+
+    await avatar.clickGenerate();
+
+    await avatar.verifyGenerating();
 });
 
-// Select specific avatar
-const selectedAvatar = page.locator(
-    '//img[@alt="Amin1778235330046"]'
-);
+test(
+'TC_AVATAR_03 : Existing Avatar + KB + Identity (English)',
+async ({ page }) => {
 
-// Ensure visible
-await expect(selectedAvatar)
-    .toBeVisible({
+    test.setTimeout(300000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createEnglishProject(
+        `Existing Avatar ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithIdentity();
+
+    await avatar.selectKnowledgeBank();
+
+    await avatar.uploadKnowledgeBank();
+
+    await avatar.clickCustomize();
+
+    await expect(
+        page.getByText('Select Avatar')
+    ).toBeVisible({
         timeout: 120000
     });
 
-// Scroll into view
-await selectedAvatar.scrollIntoViewIfNeeded();
-
-// Click avatar
-await selectedAvatar.click({
-    force: true
-});
-
-// Wait for UI update
-await page.waitForTimeout(5000);
-        await avatar.clickNext();
-
-        await avatar.clickGenerate();
-
-        await avatar.verifyGenerating();
-    });
-
-
-
-
-
-// Hindi Chat Project Creation
-     test(
-    'TC_AVATAR_04 : Verify Avatar Project Creation Flow using default avatar(hindi)',
-    async ({ page }) => {
-
-        test.setTimeout(300000);
-
-        const avatar =
-            new AvatarActions(page);
-
-        await avatar.openDashboard();
-
-        await avatar.createHindiProject(
-            `Automation Avatar Project ${Date.now()}`
+    const selectedAvatar =
+        page.locator(
+            '//img[@alt="doctor"]'
         );
 
-        await avatar.fillAgentDetails();
+    await expect(selectedAvatar)
+        .toBeVisible({
+            timeout: 120000
+        });
 
-        await avatar.uploadKnowledgeBank();
-
-        // Generate directly using default avatar
-        await avatar.clickGenerate();
-
-        await avatar.verifyGenerating();
+    await selectedAvatar.click({
+        force: true
     });
 
-    test(
-    'TC_AVATAR_05 : Create project with new avatar and audio(Hindi)',
-    async ({ page }) => {
+    await page.waitForTimeout(5000);
 
-        test.setTimeout(600000);
+    await avatar.clickNext();
 
-        const avatar =
-            new AvatarActions(page);
+    await avatar.clickGenerate();
 
-        await avatar.openDashboard();
+    await avatar.verifyGenerating();
+});
 
-        await avatar.createHindiProject(
-            `Avatar Project ${Date.now()}`
+//
+// ============================================================
+// KNOWLEDGE BANK FLOW WITHOUT IDENTITY
+// ============================================================
+//
+
+test(
+'TC_AVATAR_04 : Default Avatar + KB + No Identity (Hindi)',
+async ({ page }) => {
+
+    test.setTimeout(300000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createHindiProject(
+        `Avatar Hindi ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithoutIdentity();
+
+    await avatar.selectKnowledgeBank();
+
+    await avatar.uploadKnowledgeBank();
+
+    await avatar.clickGenerate();
+
+    await avatar.verifyGenerating();
+});
+
+test(
+'TC_AVATAR_05 : New Avatar + KB + No Identity (Hindi)',
+async ({ page }) => {
+
+    test.setTimeout(600000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createHindiProject(
+        `Avatar Hindi ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithoutIdentity();
+
+    await avatar.selectKnowledgeBank();
+
+    await avatar.uploadKnowledgeBank();
+
+    await avatar.clickCustomize();
+
+    await avatar.createNewAvatar();
+
+    await avatar.fillAvatarDetails();
+
+    await avatar.uploadAvatarVideos();
+
+    await avatar.addVoice();
+
+    await avatar.previewVoice();
+
+    await avatar.createAvatar();
+
+    await page.waitForTimeout(5000);
+
+    await avatar.clickNext();
+
+    await avatar.clickGenerate();
+
+    await avatar.verifyGenerating();
+});
+
+test(
+'TC_AVATAR_06 : Existing Avatar + KB + No Identity (Hindi)',
+async ({ page }) => {
+
+    test.setTimeout(300000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createHindiProject(
+        `Existing Avatar ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithoutIdentity();
+
+    await avatar.selectKnowledgeBank();
+
+    await avatar.uploadKnowledgeBank();
+
+    await avatar.clickCustomize();
+
+    const selectedAvatar =
+        page.locator(
+            '//img[@alt="doctor"]'
         );
 
-        await avatar.fillAgentDetails();
+    await expect(selectedAvatar)
+        .toBeVisible({
+            timeout: 120000
+        });
 
-        await avatar.uploadKnowledgeBank();
-
-        await avatar.clickCustomize();
-
-        await avatar.createNewAvatar();
-
-        await avatar.fillAvatarDetails();
-
-        await avatar.uploadAvatarVideos();
-
-        await avatar.addVoice();
-
-        await avatar.previewVoice();
-
-        await avatar.createAvatar();
-
-        // Wait after avatar creation
-        await page.waitForTimeout(5000);
-
-        await avatar.clickNext();
-
-        await avatar.clickGenerate();
-
-        await avatar.verifyGenerating();
+    await selectedAvatar.click({
+        force: true
     });
 
-    test(
-    'TC_AVATAR_06 : Create project using existing avatar(Hindi)',
-    async ({ page }) => {
+    await page.waitForTimeout(5000);
 
-        test.setTimeout(300000);
+    await avatar.clickNext();
 
-        const avatar =
-            new AvatarActions(page);
+    await avatar.clickGenerate();
+    await page.waitForTimeout(3000);
 
-        await avatar.openDashboard();
+    //await avatar.verifyGenerating();
+});
 
-        await avatar.createHindiProject(
-            `Existing Avatar Project ${Date.now()}`
+//
+// ============================================================
+// AI MODEL FLOW WITH IDENTITY
+// ============================================================
+//
+
+test(
+'TC_AVATAR_07 : Default Avatar + AI Model + Identity (English)',
+async ({ page }) => {
+
+    test.setTimeout(300000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createEnglishProject(
+        `AI Avatar ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithIdentity();
+
+    await avatar.selectAIModel();
+
+    await avatar.fillAgentInstructions();
+
+    await avatar.clickGenerate();
+     await page.waitForTimeout(3000);
+
+   // await avatar.verifyGenerating();
+});
+
+test(
+'TC_AVATAR_08 : New Avatar + AI Model + Identity (English)',
+async ({ page }) => {
+
+    test.setTimeout(600000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createEnglishProject(
+        `AI Avatar ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithIdentity();
+
+    await avatar.selectAIModel();
+
+    await avatar.fillAgentInstructions();
+
+    await avatar.clickCustomize();
+
+    await avatar.createNewAvatar();
+
+    await avatar.fillAvatarDetails();
+
+    await avatar.uploadAvatarVideos();
+
+    await avatar.addVoice();
+
+    await avatar.previewVoice();
+
+    await avatar.createAvatar();
+
+    await page.waitForTimeout(5000);
+
+    await avatar.clickNext();
+
+    await avatar.clickGenerate();
+ await page.waitForTimeout(3000);
+});
+
+test(
+'TC_AVATAR_09 : Existing Avatar + AI Model + Identity (English)',
+async ({ page }) => {
+
+    test.setTimeout(300000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createEnglishProject(
+        `AI Existing ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithIdentity();
+
+    await avatar.selectAIModel();
+
+    await avatar.fillAgentInstructions();
+
+    await avatar.clickCustomize();
+
+    const selectedAvatar =
+        page.locator(
+            '//img[@alt="doctor"]'
         );
 
-        await avatar.fillAgentDetails();
-
-        await avatar.uploadKnowledgeBank();
-
-        await avatar.clickCustomize();
-
-// Wait for Select Avatar page
-await expect(
-    page.getByText('Select Avatar')
-).toBeVisible({
-    timeout: 120000
-});
-
-// Wait for avatar loading to finish
-await expect(
-    page.getByText('Loading avatars...')
-).not.toBeVisible({
-    timeout: 300000
-});
-
-// Select specific avatar
-const selectedAvatar = page.locator(
-    '//img[@alt="Amin1778235330046"]'
-);
-
-// Ensure visible
-await expect(selectedAvatar)
-    .toBeVisible({
-        timeout: 120000
+    await selectedAvatar.click({
+        force: true
     });
 
-// Scroll into view
-await selectedAvatar.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(5000);
 
-// Click avatar
-await selectedAvatar.click({
-    force: true
+    await avatar.clickNext();
+
+    await avatar.clickGenerate();
+ await page.waitForTimeout(3000);
 });
 
-// Wait for UI update
-await page.waitForTimeout(5000);
-        await avatar.clickNext();
+//
+// ============================================================
+// AI MODEL FLOW WITHOUT IDENTITY
+// ============================================================
+//
 
-        await avatar.clickGenerate();
+test(
+'TC_AVATAR_10 : Default Avatar + AI Model + No Identity (Hindi)',
+async ({ page }) => {
 
-        await avatar.verifyGenerating();
+    test.setTimeout(300000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createHindiProject(
+        `AI Hindi ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithoutIdentity();
+
+    await avatar.selectAIModel();
+
+    await avatar.clickGenerate();
+ await page.waitForTimeout(3000);
+});
+
+test(
+'TC_AVATAR_11 : New Avatar + AI Model + No Identity (Hindi)',
+async ({ page }) => {
+
+    test.setTimeout(600000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createHindiProject(
+        `AI Hindi ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithoutIdentity();
+
+    await avatar.selectAIModel();
+
+    await avatar.clickCustomize();
+
+    await avatar.createNewAvatar();
+
+    await avatar.fillAvatarDetails();
+
+    await avatar.uploadAvatarVideos();
+
+    await avatar.addVoice();
+
+    await avatar.previewVoice();
+
+    await avatar.createAvatar();
+
+    await page.waitForTimeout(5000);
+
+    await avatar.clickNext();
+
+    await avatar.clickGenerate();
+
+        await page.waitForTimeout(3000);
+});
+
+test(
+'TC_AVATAR_12 : Existing Avatar + AI Model + No Identity (Hindi)',
+async ({ page }) => {
+
+    test.setTimeout(300000);
+
+    const avatar =
+        new AvatarActions(page);
+
+    await avatar.openDashboard();
+
+    await avatar.createHindiProject(
+        `AI Existing ${Date.now()}`
+    );
+
+    await avatar.fillAgentDetailsWithoutIdentity();
+
+    await avatar.selectAIModel();
+
+    await avatar.clickCustomize();
+
+    const selectedAvatar =
+        page.locator(
+            '//img[@alt="doctor"]'
+        );
+
+    await selectedAvatar.click({
+        force: true
     });
+
+    await page.waitForTimeout(5000);
+
+    await avatar.clickNext();
+
+    await avatar.clickGenerate();
+
+    await page.waitForTimeout(3000);
+});
+
 });

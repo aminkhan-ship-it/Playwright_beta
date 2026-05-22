@@ -201,7 +201,7 @@ async createNewAvatar() {
 
     const fullBodyRadio =
         this.page.getByRole('radio', {
-            name: /Full Body/i
+            name: /Half Body/i
         });
 
     await expect(fullBodyRadio)
@@ -358,6 +358,96 @@ async createNewAvatar() {
             timeout: 300000
         });
     }
+
+
+
+
+
+
+
+
+
+    // ----------------------------------------------------
+// FILL DETAILS WITH IDENTITY
+// ----------------------------------------------------
+
+async fillAgentDetailsWithIdentity() {
+
+    // Agent Name
+    await this.page.locator(
+        locators.agentNameInput
+    ).fill('Amin Khan');
+
+    // Agent Identity
+    await this.page.locator(
+        locators.agentIdentityTextarea
+    ).fill(
+        'Amin Khan AI Assistant'
+    );
+}
+
+// ----------------------------------------------------
+// FILL DETAILS WITHOUT IDENTITY
+// ----------------------------------------------------
+
+async fillAgentDetailsWithoutIdentity() {
+
+    // Agent Name
+    await this.page.locator(
+        locators.agentNameInput
+    ).fill('Amin Khan');
+
+    // Keep identity empty
+}
+
+// ----------------------------------------------------
+// SELECT KNOWLEDGE BANK
+// ----------------------------------------------------
+
+async selectKnowledgeBank() {
+
+    // Open dropdown
+    await this.page.locator(
+        'button[role="combobox"]'
+    ).nth(1).click();
+
+    // Select Knowledge Bank
+    await this.page.getByText(
+        'Knowledge Bank',
+        { exact: true }
+    ).last().click();
+}
+
+// ----------------------------------------------------
+// SELECT AI MODEL
+// ----------------------------------------------------
+
+async selectAIModel() {
+
+    // Open dropdown
+    await this.page.locator(
+        'button[role="combobox"]'
+    ).nth(1).click();
+
+    // Select AI Model
+    await this.page.getByText(
+        'AI Model',
+        { exact: true }
+    ).last().click();
+}
+
+// ----------------------------------------------------
+// FILL AGENT INSTRUCTIONS
+// ----------------------------------------------------
+
+async fillAgentInstructions() {
+
+    await this.page.locator(
+        'textarea'
+    ).last().fill(
+        'Answer only AI and automation related questions.'
+    );
+}
    
 }
 

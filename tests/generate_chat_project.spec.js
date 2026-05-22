@@ -120,6 +120,7 @@ async ({ page }) => {
     // No agent instructions added
 
     await chat.clickGenerate();
+    await page.waitForTimeout(3000);
 
     //await chat.verifyGenerating();
 });
@@ -154,6 +155,7 @@ async ({ page }) => {
     // No agent instructions added
 
     await chat.clickGenerate();
+    await page.waitForTimeout(3000);
 
     //await chat.verifyGenerating();
 });
@@ -189,6 +191,7 @@ async ({ page }) => {
     await chat.fillAgentInstructions();
 
     await chat.clickGenerate();
+    await page.waitForTimeout(3000);
 
    // await chat.verifyGenerating();
 });
@@ -223,6 +226,7 @@ async ({ page }) => {
     await chat.fillAgentInstructions();
 
     await chat.clickGenerate();
+    await page.waitForTimeout(3000);
 
    // await chat.verifyGenerating();
 });

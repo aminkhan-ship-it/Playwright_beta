@@ -4,13 +4,13 @@ module.exports = {
         '/Users/mohammedaminkhanj/Downloads/flam (1).pdf',
 
     voiceVideo:
-        '/Users/mohammedaminkhanj/Downloads/Video_02_voice (1).MOV',
+        '/Users/mohammedaminkhanj/Downloads/avatar_voice.mp4',
 
     silentVideo:
-        '/Users/mohammedaminkhanj/Downloads/Video_02_Silent (1).mov',
+        '/Users/mohammedaminkhanj/Downloads/avatar_scilent.mp4',
 
     audioFile:
-        '/Users/mohammedaminkhanj/Downloads/Audio (1).mp3'
+        '/Users/mohammedaminkhanj/Downloads/Alessia_voice.mp3'
 };
 
 

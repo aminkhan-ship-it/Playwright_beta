@@ -43,6 +43,8 @@ module.exports = {
         'button:has-text("Generate")',
         languageDropdown:
     'button[role="combobox"]',
+    agentIdentityTextarea:
+'textarea[placeholder*="What does your agent do"]',
 
 
     
